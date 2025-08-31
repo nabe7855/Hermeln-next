@@ -8,6 +8,7 @@ const HermelnSmileLogo: React.FC<{ size?: number }> = ({ size = 120 }) => {
       alt="Hermeln Logo"
       width={size}
       height={size}
+      className="w-32 h-auto"
       priority
     />
   );

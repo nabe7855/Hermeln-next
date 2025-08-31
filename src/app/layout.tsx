@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -13,13 +13,21 @@ export const metadata: Metadata = {
   title: 'Hermeln - 感じたことが、ことばになる',
   description: '感情駆動型音声日記言語学習アプリ',
   manifest: '/manifest.json',
-  themeColor: '#ff6b35',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
     title: 'Hermeln'
   }
+};
+
+// ✅ viewport と themeColor を分離して書く
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: '#ff6b35',
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({
