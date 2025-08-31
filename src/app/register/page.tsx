@@ -2,26 +2,29 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import GoogleIcon from "@/components/GoogleIcon";
+import BackButton from "@/components/BackButton";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("ログイン:", email, password);
-    router.push("/dashboard"); // 仮の遷移先
+    console.log("会員登録:", email, password);
+    router.push("/login");
   };
 
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-gradient-to-br from-green-50 via-teal-50 to-purple-100 p-4">
-      <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-4">Hermelnをはじめよう</h1>
-      <p className="text-sm sm:text-base text-gray-600 mb-8 leading-relaxed text-center">
-        アカウント登録しておくと<br />別のデバイスでもHermelnの記憶が引き継がれます
-      </p>
+    <div className="flex flex-col min-h-screen items-center justify-center bg-gradient-to-br from-green-50 via-teal-50 to-purple-100 p-4 relative">
+      {/* 戻るボタン */}
+      <div className="absolute left-4 top-4">
+        <BackButton onClick={() => router.push("/login")} />
+      </div>
 
-      <form onSubmit={handleLogin} className="w-full max-w-sm space-y-4">
+      <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6">アカウント登録</h2>
+
+      <form onSubmit={handleRegister} className="w-full max-w-sm space-y-4">
         <input
           type="email"
           placeholder="メールアドレス"
@@ -36,8 +39,8 @@ export default function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full px-4 py-3 border border-gray-300 rounded-full"
         />
-        <button className="w-full py-4 text-lg font-bold text-white bg-gray-800 rounded-full shadow-lg hover:bg-gray-700 active:scale-95">
-          ログイン
+        <button className="w-full py-4 text-lg font-bold text-white bg-gray-800 rounded-full shadow-lg hover:bg-gray-700">
+          アカウント登録
         </button>
       </form>
 
@@ -49,15 +52,8 @@ export default function LoginPage() {
 
       <button className="w-full max-w-sm py-4 text-lg font-bold text-white bg-gray-800 rounded-full shadow-lg hover:bg-gray-700 flex items-center justify-center gap-3">
         <GoogleIcon />
-        Googleで続ける
+        Googleで登録
       </button>
-
-      <p className="mt-6 text-sm text-gray-600">
-        アカウントをお持ちでないですか？{" "}
-        <button onClick={() => router.push("/register")} className="text-blue-600 underline">
-          会員登録
-        </button>
-      </p>
     </div>
   );
 }
