@@ -2,26 +2,117 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 🎨 カスタムカラー変数 */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --border: 220 14% 96%;       /* 薄いグレー border */
+  --background: 0 0% 100%;     /* 白背景 */
+  --foreground: 222.2 84% 4.9%; /* 濃い文字色 */
+  --surface-50: 210 20% 98%;   /* 背景用の薄グレー */
+  --primary-500: 221 83% 53%;  /* ブルー系メインカラー */
+  --primary-600: 221 83% 45%;  /* メインカラー濃いめ */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-surface-50 text-foreground font-sans;
+  }
+
+  html, body {
+    height: 100%;
+    overflow-x: hidden;
+  }
+
+  /* iOS Safari fix for viewport height */
+  .min-h-screen-mobile {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .mobile-container {
+    @apply max-w-sm mx-auto px-6 relative;
+  }
+  
+  .mobile-card {
+    @apply bg-white rounded-2xl p-6 shadow-sm border border-border touch-feedback;
+  }
+  
+  .mobile-button {
+    @apply min-h-touch-target min-w-touch-target rounded-full font-semibold transition-all duration-200 touch-manipulation touch-feedback flex items-center justify-center gap-2;
+  }
+  
+  .mobile-button-primary {
+    @apply mobile-button bg-primary-500 text-white shadow-lg active:bg-primary-600 active:scale-95 hover:shadow-xl;
+  }
+  
+  .mobile-button-secondary {
+    @apply mobile-button bg-gray-100 text-gray-700 active:bg-gray-200 active:scale-95;
+  }
+  
+  .character-avatar {
+    @apply rounded-full flex items-center justify-center text-white font-bold shadow-lg;
+  }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+  }
+  
+  @keyframes bounceGentle {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-10px) scale(1.02); }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes fadeInUp {
+    from { 
+      opacity: 0; 
+      transform: translateY(20px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+  
+  @keyframes scaleIn {
+    from { 
+      opacity: 0; 
+      transform: scale(0.9); 
+    }
+    to { 
+      opacity: 1; 
+      transform: scale(1); 
+    }
+  }
+  
+  @keyframes pingGentle {
+    75%, 100% {
+      transform: scale(1.1);
+      opacity: 0;
+    }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .animate-bounce-gentle {
+    animation: bounceGentle 2.5s ease-in-out infinite;
+  }
+  
+  .animate-ping-gentle {
+    animation: pingGentle 2s cubic-bezier(0, 0, 0.2, 1) infinite;
   }
 }
