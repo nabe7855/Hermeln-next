@@ -3,38 +3,28 @@ generator client {
 }
 
 datasource db {
-provider  = "postgresql"
+  provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL") // マイグレーション時はこちらを使用
 }
 
-model User {
-  id        String     @id @default(uuid())
-  name      String
-  email     String     @unique
-  image     String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-
-  Profile   Profile?
-  Diary     Diary[]
-  UserTag   UserTag[]
-}
-
 model Profile {
-  id         String   @id @map("user_id")
+  id         String   @id @map("user_id") // auth.users.id と一致
+  name       String?  @db.Text            // ← 追加！
   typeResult String?  @db.Text
   bio        String?  @db.Text
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  User       User     @relation(fields: [id], references: [id], onDelete: Cascade)
+  @@map("profile") // ← テーブル名を小文字にマップ
 }
 
 model Tag {
   id      Int       @id @default(autoincrement())
   name    String    @unique
   UserTag UserTag[]
+
+  @@map("tag")
 }
 
 model UserTag {
@@ -42,18 +32,19 @@ model UserTag {
   userId String
   tagId  Int
 
-  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Tag    Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  Tag Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@map("user_tag")
 }
 
 model Diary {
   id        String   @id @default(uuid())
-  userId    String
+  userId    String   // auth.users.id を参照
   title     String   @db.Text
   content   String   @db.Text
   summary   String?  @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@map("diary")
 }

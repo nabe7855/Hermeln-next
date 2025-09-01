@@ -2,6 +2,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  image?: string | null
   speaking_level: number; // 1-20
   ai_partner_personality: 'gentle' | 'encouraging' | 'thoughtful' | 'friendly';
   hobby_tags: string[];
